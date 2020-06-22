@@ -19,7 +19,7 @@ const cors_1 = __importDefault(require("cors"));
 const courses_router_1 = __importDefault(require("./routes/courses.router"));
 const subjects_router_1 = __importDefault(require("./routes/subjects.router"));
 const app = express_1.default();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 const URL = process.env.URL || 'mongodb+srv://Dmitriy:z8MXcHyO3kquu00N@putilov-master.hl03q.mongodb.net/OnlineSchool?retryWrites=true&w=majority';
 app.use(cors_1.default());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
@@ -37,7 +37,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
             useCreateIndex: true,
             useFindAndModify: true,
         });
-        app.listen(PORT, () => console.log("We are live on " + PORT));
+        app.listen(PORT, '92.38.152.142', () => console.log("We are live on " + PORT));
     }
     catch (e) {
         console.log("Server error", e.message);
