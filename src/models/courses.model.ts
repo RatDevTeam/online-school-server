@@ -9,6 +9,7 @@ const courseSchema = new Schema({
     imageUrl: String,
     subject: String,
     type: String,
+    price: String,
     homeWorks: [{
         date: Date,
         title: String,

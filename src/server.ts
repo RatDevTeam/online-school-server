@@ -2,11 +2,12 @@ import express, {Application, NextFunction, Request, Response} from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import Course from '../src/routes/courses.router';
+import Course from './routes/courses.router';
+import Subject from './routes/subjects.router';
 
 const app: Application = express();
-const PORT = process.env.PORT || 5000;
-const URL = process.env.URL || 'mongodb+srv://Dmitriy:z8MXcHyO3kquu00N@putilov-master.hl03q.mongodb.net/OnlineSchool';
+const PORT = 5000;
+const URL = process.env.URL || 'mongodb+srv://Dmitriy:z8MXcHyO3kquu00N@putilov-master.hl03q.mongodb.net/OnlineSchool?retryWrites=true&w=majority';
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,7 +16,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('hello server')
 });
 app.use('/api/courses', Course);
-
+app.use('/api/subjects', Subject);
 
 const start = async () => {
     try {
@@ -28,7 +29,7 @@ const start = async () => {
                 useFindAndModify: true,
             }
         );
-        app.listen(PORT, () => console.log("We are live on " + PORT));
+        app.listen(PORT, '92.38.152.142', () => console.log("We are live on " + PORT));
     } catch (e) {
         console.log("Server error", e.message);
         process.exit(1);

@@ -16,7 +16,6 @@ export const getAllCourses = async (req: Request, res: Response) => {
 };
 
 export const addCourse = async (req: Request, res: Response) => {
-    validation('Данные не коректны', req, res);
     try {
         const { title, description, dateStart, dateFinish } = req.body;
 
@@ -38,7 +37,7 @@ export const addCourse = async (req: Request, res: Response) => {
 };
 
 export const updateCourse = async (req: Request, res: Response) => {
-    try{
+    try {
         const { id } =  req.params;
         const payload  = req.query;
 
@@ -55,7 +54,7 @@ export const updateCourse = async (req: Request, res: Response) => {
 };
 
 export const deleteCourse = async (req: Request, res: Response) => {
-    try{
+    try {
 
         const { id } = req.params;
         const course = await Course.findOne({_id: id});
@@ -64,8 +63,8 @@ export const deleteCourse = async (req: Request, res: Response) => {
           return res.status(400).send('Курс не найден')
         }
 
-        const delCourse = await Course.findOneAndDelete({_id: course._id});
-        return res.status(200).send(`Курс ${delCourse} удален`);
+        await Course.remove({_id: course._id});
+        return res.status(200).send(`Курс ${course.title} удален`);
     } catch (e) {
         return res.status(500).send('Что-то пошло не так');
     }

@@ -9,12 +9,16 @@ export interface ICourse extends Document {
     dateFinish: string,
     imageUrl: string,
     subject: string,
+    price: string,
     type: CourseTypes,
     homeWorks: IHomeWork[],
     scripts: IScript[],
 }
 
-export type CourseTypes = 'master' | 'special';
+export enum CourseTypes {
+    MASTER ,
+    SPECIAL,
+}
 
 export interface IHomeWork {
     date: string,
