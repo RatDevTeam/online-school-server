@@ -37,7 +37,7 @@ const start = () => __awaiter(void 0, void 0, void 0, function* () {
             useCreateIndex: true,
             useFindAndModify: true,
         });
-        app.listen(PORT, '92.38.152.142', () => console.log("We are live on " + PORT));
+        app.listen(PORT, () => console.log("We are live on " + PORT));
     }
     catch (e) {
         console.log("Server error", e.message);

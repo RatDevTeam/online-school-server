@@ -29,7 +29,7 @@ const start = async () => {
                 useFindAndModify: true,
             }
         );
-        app.listen(PORT, '92.38.152.142', () => console.log("We are live on " + PORT));
+        app.listen(PORT, () => console.log("We are live on " + PORT));
     } catch (e) {
         console.log("Server error", e.message);
         process.exit(1);
