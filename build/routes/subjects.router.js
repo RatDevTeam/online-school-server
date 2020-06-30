@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const utils_1 = require("../utils");
 const subjects_controller_1 = require("../controllers/subjects.controller");
 const subject_validators_1 = require("../validators/subject.validators");
-const utils_1 = require("../utils");
 const router = express_1.Router();
 router.get('/', subjects_controller_1.getAllSubject);
 router.post('/add', subject_validators_1.addSubjectValidators, utils_1.validation, subjects_controller_1.addSubject);

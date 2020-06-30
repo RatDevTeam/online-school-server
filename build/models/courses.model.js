@@ -20,15 +20,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const subject_model_1 = require("./subject.model");
 const courseSchema = new mongoose_1.Schema({
     title: String,
     description: String,
     dateStart: Date,
     dateFinish: Date,
     imageUrl: String,
-    subject: String,
-    type: String,
+    subject: subject_model_1.subjectSchema,
+    type: Number,
     price: String,
+    teacher: String,
     homeWorks: [{
             date: Date,
             title: String,

@@ -19,11 +19,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.subjectSchema = void 0;
+exports.teacherSchema = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-exports.subjectSchema = new mongoose_1.Schema({
-    title: String,
-    type: String,
-    color: String,
+exports.teacherSchema = new mongoose_1.Schema({
+    name: String,
+    description: String,
+    imgUrl: String,
+    vkUrl: String,
 });
-exports.default = mongoose_1.default.model('Subject', exports.subjectSchema);
+exports.default = mongoose_1.default.model('Teacher', exports.teacherSchema);

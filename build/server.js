@@ -18,6 +18,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const courses_router_1 = __importDefault(require("./routes/courses.router"));
 const subjects_router_1 = __importDefault(require("./routes/subjects.router"));
+const teachers_router_1 = __importDefault(require("./routes/teachers.router"));
 const app = express_1.default();
 const PORT = 5000;
 const URL = process.env.URL || 'mongodb+srv://Dmitriy:z8MXcHyO3kquu00N@putilov-master.hl03q.mongodb.net/OnlineSchool?retryWrites=true&w=majority';
@@ -29,6 +30,7 @@ app.get('/', (req, res, next) => {
 });
 app.use('/api/courses', courses_router_1.default);
 app.use('/api/subjects', subjects_router_1.default);
+app.use('/api/teachers', teachers_router_1.default);
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(URL, {

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteCourse = exports.updateCourse = exports.addCourse = exports.getAllCourses = void 0;
+exports.deleteCourse = exports.updateCourse = exports.addCourse = exports.getCourseById = exports.getAllCourses = void 0;
 const courses_model_1 = __importDefault(require("../models/courses.model"));
 exports.getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -23,9 +23,22 @@ exports.getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function
         return res.status(500).send('Что-то пошло не так');
     }
 });
+exports.getCourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const course = yield courses_model_1.default.find({ _id: id });
+        if (!course) {
+            return res.status(400).send('Курс не найден');
+        }
+        return res.status(200).send(course);
+    }
+    catch (e) {
+        return res.status(500).send('Что-то пошло не так');
+    }
+});
 exports.addCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, description, dateStart, dateFinish } = req.body;
+        const { title, description, dateStart, dateFinish, subject } = req.body;
         const dateS = new Date(dateStart);
         const dateF = new Date(dateFinish);
         const course = new courses_model_1.default({
@@ -33,6 +46,7 @@ exports.addCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             description,
             dateStart: dateS,
             dateFinish: dateF,
+            subject,
         });
         const newCourse = yield course.save();
         return res.status(200).send(newCourse);
