@@ -1,7 +1,7 @@
 import { Router } from 'express';
+import { validation } from '../utils';
 import {addSubject, deleteSubject, getAllSubject} from "../controllers/subjects.controller";
 import {addSubjectValidators} from "../validators/subject.validators";
-import { validation } from '../utils';
 
 const router = Router();
 

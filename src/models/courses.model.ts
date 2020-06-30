@@ -1,5 +1,6 @@
 import mongoose, { Schema }from 'mongoose';
 import { ICourse } from './courses.interface';
+import { subjectSchema } from './subject.model';
 
 const courseSchema = new Schema({
     title: String,
@@ -7,9 +8,10 @@ const courseSchema = new Schema({
     dateStart: Date,
     dateFinish: Date,
     imageUrl: String,
-    subject: String,
-    type: String,
+    subject: subjectSchema,
+    type: Number,
     price: String,
+    teacher: String,
     homeWorks: [{
         date: Date,
         title: String,

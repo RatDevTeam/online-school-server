@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import {ISubject} from "./subject.interface";
 
 
 export interface ICourse extends Document {
@@ -8,9 +9,10 @@ export interface ICourse extends Document {
     dateStart: string,
     dateFinish: string,
     imageUrl: string,
-    subject: string,
-    price: string,
+    subject: ISubject,
     type: CourseTypes,
+    price: string,
+    teachers: string[],
     homeWorks: IHomeWork[],
     scripts: IScript[],
 }

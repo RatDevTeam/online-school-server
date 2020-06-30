@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import Course from './routes/courses.router';
 import Subject from './routes/subjects.router';
+import Teacher from './routes/teachers.router';
 
 const app: Application = express();
 const PORT = 5000;
@@ -17,6 +18,7 @@ app.get('/', (req: Request, res: Response, next: NextFunction) => {
 });
 app.use('/api/courses', Course);
 app.use('/api/subjects', Subject);
+app.use('/api/teachers', Teacher);
 
 const start = async () => {
     try {
