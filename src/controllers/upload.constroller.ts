@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import multer from "multer";
 const { Storage } = require('@google-cloud/storage');
+require('dotenv').config();
 
 export const uploadMulter = multer({
     storage: multer.memoryStorage(),
@@ -16,22 +17,20 @@ export const uploadMulter = multer({
             cb(null, true);
         } else {
             cb(null, false);
-            return cb(new Error('Только .png, .jpg и .jpeg форматы!'));
         }
     },
 });
 
 const storage = new Storage({
-    projectId: process.env.GCLOUD_PROJECT_ID,
-    keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
+    projectId: process.env.GCLOUD_PROJECT_ID && process.env.GCLOUD_PROJECT_ID,
+    keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS && process.env.GCLOUD_APPLICATION_CREDENTIALS,
 });
 
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
+const bucket = process.env.GCLOUD_STORAGE_BUCKET_URL && storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
 
 
-export const uploadPhotos = async (req: Request, res: Response) => {
+export const uploadPhotos = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
         if (!req.file) {
             return res.status(400).send('Отсутствует файл для загрузки');
         }
@@ -52,12 +51,10 @@ export const uploadPhotos = async (req: Request, res: Response) => {
                 bucket.name
             }/o/${encodeURI(blob.name)}?alt=media`;
 
-            console.log(publicUrl)
-
-            return res
-                .status(200)
-                .send({ fileName: req.file.originalname, fileLocation: publicUrl });
+            // return next(publicUrl);
+            return res.status(202).send(publicUrl);
         });
+
 
         blobWriter.end(req.file.buffer);
     } catch (e) {
