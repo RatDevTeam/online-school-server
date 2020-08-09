@@ -35,7 +35,7 @@ export const uploadPhotos = async (req: Request, res: Response, next: NextFuncti
             return res.status(400).send('Отсутствует файл для загрузки');
         }
 
-        const blob = bucket.file(req.file.originalname);
+        const blob = bucket.file(encodeURI(req.file.originalname));
 
         const blobWriter = blob.createWriteStream({
             metadata: {
@@ -49,7 +49,7 @@ export const uploadPhotos = async (req: Request, res: Response, next: NextFuncti
         blobWriter.on('finish', () => {
             const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${
                 bucket.name
-            }/o/${encodeURI(blob.name)}?alt=media`;
+            }/o/${encodeURI(req.file.originalname)}?alt=media`;
 
             // return next(publicUrl);
             return res.status(202).send(publicUrl);
@@ -59,5 +59,22 @@ export const uploadPhotos = async (req: Request, res: Response, next: NextFuncti
         blobWriter.end(req.file.buffer);
     } catch (e) {
         return res.status(500).send('Что-то пошло не так');
+    }
+};
+
+export const deletePhoto = async (req: Request, res: Response) => {
+    try {
+        const { publicUrl } = req.body;
+
+        //получаем имя файла из publicUrl;
+        const filename = publicUrl.split('/').pop(-1).split('?alt=media')[0];
+        const file = await bucket.file(filename);
+        file.delete();
+        return res.status(204).send(`Мы удалили ${filename}`);
+    } catch (e) {
+       if (e.code === 404)
+           return res.status(404).send('Этот файл уже удален');
+       else
+        return res.status(e.code).send(e);
     }
 };
