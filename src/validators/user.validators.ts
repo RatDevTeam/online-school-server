@@ -9,5 +9,5 @@ export const regUserValidator = [
 
 export const loginValidator = [
     check('email', 'Отсутсвует логин').exists(),
-    check('password', 'Отсутсвует должен быть длиннее 5 символов').isLength({min: 6}),
+    check('password', 'Минимальная длинна пароля 6 символов').isLength({min: 6}),
 ];
