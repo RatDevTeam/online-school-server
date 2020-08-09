@@ -6,6 +6,8 @@ import Course from './routes/courses.router';
 import Subject from './routes/subjects.router';
 import Teacher from './routes/teachers.router';
 import Upload from './routes/upload.router';
+import User from './routes/users.router';
+import Activate from './routes/activete.router';
 
 const app: Application = express();
 const PORT = 5000;
@@ -18,10 +20,13 @@ app.use(bodyParser.json());
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
     res.send('hello server')
 });
+
 app.use('/api/courses', Course);
 app.use('/api/subjects', Subject);
 app.use('/api/teachers', Teacher);
 app.use('/api/upload', Upload);
+app.use('/api/users', User);
+app.use('/activate', Activate);
 
 const start = async () => {
     try {
