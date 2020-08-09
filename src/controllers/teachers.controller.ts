@@ -24,7 +24,7 @@ export const getTeachersByIds = async (req: Request, res: Response) => {
         if (idsString) {
             ids = idsString.split(',');
         } else {
-            return res.status(400).send('Нет списка преподователей')
+            return res.status(400).send('Нет списка преподавателей')
         }
 
         console.log(ids);
@@ -32,7 +32,7 @@ export const getTeachersByIds = async (req: Request, res: Response) => {
         const teachers: ITeacher[] = await Teacher.find();
 
         if (!teachers) {
-            return res.status(400).send('Ни один преподователь не найден')
+            return res.status(400).send('Ни один преподаватель не найден')
         }
 
         const teachersForCourse = teachers.filter((teacher) => ids.includes(String(teacher._id)));
@@ -68,11 +68,11 @@ export const deleteTeacher = async (req: Request, res: Response) => {
         const teacher: ITeacher | null = await Teacher.findOne({_id: id});
 
         if (!teacher) {
-            return res.status(400).send('Такого преподователя нет')
+            return res.status(400).send('Такого преподавателя нет')
         }
 
         await Teacher.remove({_id: teacher._id});
-        return res.status(200).send(`Преподователь ${teacher.name} удален`);
+        return res.status(200).send(`Преподаватель ${teacher.name} удален`);
     } catch (e) {
         return res.status(500).send('Что-то пошло не так');
     }
