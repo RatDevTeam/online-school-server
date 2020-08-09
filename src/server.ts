@@ -10,6 +10,7 @@ import Upload from './routes/upload.router';
 const app: Application = express();
 const PORT = 5000;
 const URL = process.env.URL || 'mongodb+srv://Dmitriy:z8MXcHyO3kquu00N@putilov-master.hl03q.mongodb.net/OnlineSchool?retryWrites=true&w=majority';
+require('dotenv').config();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
