@@ -9,7 +9,7 @@ router.get('/', getAllTeachers );
 
 router.get('/ids', getTeachersByIds);
 
-router.post('/add', addTeacherValidators ,validation, addTeacher);
+router.post('/add', addTeacherValidators, validation, addTeacher);
 
 router.delete('delete', deleteTeacher);
 

@@ -1,7 +1,8 @@
 import { Router } from 'express';
 const router = Router();
-import {getAllCourses, addCourse, updateCourse, deleteCourse, getCourseById} from '../controllers/courses.controller'
+import {validation} from "../utils";
 import {addCourseValidator} from "../validators/course.validators";
+import {getAllCourses, addCourse, updateCourse, deleteCourse, getCourseById} from '../controllers/courses.controller'
 
 /** /api/courses/ */
 router.get('/', getAllCourses );
@@ -10,6 +11,7 @@ router.get('/:id', getCourseById);
 
 router.post('/add',
     addCourseValidator,
+    validation,
     addCourse );
 
 router.put('/update/:id', updateCourse);
