@@ -7,7 +7,7 @@ export const getAllTeachers = async (req: Request, res: Response) => {
         const teacher = await Teacher.find();
 
         if (!teacher) {
-            return res.status(400).send('Ни один преподователь не найден')
+            return res.status(400).send('Ни один преподаватель не найден')
         }
 
         return res.status(200).send(teacher);
@@ -18,7 +18,6 @@ export const getAllTeachers = async (req: Request, res: Response) => {
 
 export const getTeachersByIds = async (req: Request, res: Response) => {
     try {
-
         const idsString = req.header('ids');
         let ids: string[];
         if (idsString) {

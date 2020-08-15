@@ -3,8 +3,8 @@ import {deletePhoto, uploadMulter, uploadPhotos} from "../controllers/upload.con
 
 const router = Router();
 
-router.post('/photo', uploadMulter.single('image'), uploadPhotos);
+router.post('/', uploadMulter.single('image'), uploadPhotos);
 
-router.delete('/photo', deletePhoto);
+router.delete('/', deletePhoto);
 
 export default router;
