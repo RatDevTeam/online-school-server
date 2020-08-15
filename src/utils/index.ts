@@ -1,5 +1,7 @@
 import {NextFunction, Request, Response,} from 'express';
+import nodemailer from 'nodemailer';
 import {validationResult} from 'express-validator';
+require('dotenv').config();
 
 export const validation = (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req);
@@ -13,3 +15,11 @@ export const validation = (req: Request, res: Response, next: NextFunction) => {
         next();
     }
 };
+
+export const emailTransporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD
+    }
+});

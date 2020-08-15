@@ -28,7 +28,6 @@ const storage = new Storage({
 
 const bucket = process.env.GCLOUD_STORAGE_BUCKET_URL && storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
 
-
 export const uploadPhotos = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.file) {
@@ -43,7 +42,6 @@ export const uploadPhotos = async (req: Request, res: Response, next: NextFuncti
             },
         });
 
-
         blobWriter.on('error', (err:any) => console.log(err));
 
         blobWriter.on('finish', () => {
@@ -54,6 +52,8 @@ export const uploadPhotos = async (req: Request, res: Response, next: NextFuncti
             // return next(publicUrl);
             return res.status(202).send(publicUrl);
         });
+
+        bucket.getFilesStream();
 
 
         blobWriter.end(req.file.buffer);
