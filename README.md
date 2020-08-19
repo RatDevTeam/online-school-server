@@ -1,1 +1,1 @@
-# online-school_server
+# Likbez Server
