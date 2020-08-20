@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
+import {Request, Response} from 'express';
 import Teacher from '../models/teachers.model';
-import { ITeacher } from "../models/teachers.interface";
+import {ITeacher} from "../models/teachers.interface";
 
 export const getAllTeachers = async (req: Request, res: Response) => {
     try {
@@ -45,7 +45,7 @@ export const getTeachersByIds = async (req: Request, res: Response) => {
 
 export const addTeacher = async (req: Request, res: Response) => {
     try {
-        const { name, description, vkUrl } = req.body;
+        const {name, description, vkUrl} = req.body;
 
         const teacher: ITeacher = new Teacher({
             name, description, vkUrl
@@ -59,10 +59,27 @@ export const addTeacher = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteTeacher = async (req: Request, res: Response) => {
-    try {
+export const updateTeacher = async (req: Request, res: Response) => {
 
-        const { id } = req.params;
+    try {
+        const {id} = req.query;
+        const update = req.body;
+        const response = await Teacher.updateOne({_id: String(id)}, update);
+
+        if (response.ok && response.nModified === 1) {
+            return res.status(202).send(`Изменено преподавателей: ${response.nModified} чел.`);
+        } else {
+            return res.status(404).send('Ничего не нашлось');
+        }
+    } catch (e) {
+        res.status(500).send('Что-то пошло не так: ' + e);
+    }
+};
+
+export const deleteTeacher = async (req: Request, res: Response) => {
+
+    try {
+        const {id} = req.params;
 
         const teacher: ITeacher | null = await Teacher.findOne({_id: id});
 
