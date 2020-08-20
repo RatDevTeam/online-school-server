@@ -64,10 +64,10 @@ export const updateTeacher = async (req: Request, res: Response) => {
     try {
         const {id} = req.query;
         const update = req.body;
-        const response = await Teacher.updateOne({_id: String(id)}, update);
+        const teacher = await Teacher.findOneAndUpdate({_id: String(id)}, update);
 
-        if (response.ok && response.nModified === 1) {
-            return res.status(202).send(`Изменено преподавателей: ${response.nModified} чел.`);
+        if (teacher) {
+            return res.status(202).send(teacher);
         } else {
             return res.status(404).send('Ничего не нашлось');
         }
