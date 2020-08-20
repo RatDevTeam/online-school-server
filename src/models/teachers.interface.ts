@@ -1,4 +1,5 @@
 import { Document } from 'mongoose';
+import {ISubject} from "./subject.interface";
 
 export interface ITeacher extends Document {
     _id: string;
@@ -6,4 +7,5 @@ export interface ITeacher extends Document {
     description: string;
     imgUrl: string;
     vkUrl: string;
+    subject: ISubject;
 }
