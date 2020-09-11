@@ -25,7 +25,11 @@ router.post(
   addCourse
 );
 
-router.put("/update/:id", updateCourse);
+router.put(
+    "/update/:id",
+    uploadMulter.single("image"),
+    uploadPhotos,
+    updateCourse);
 
 router.delete("delete/:id", deleteCourse);
 

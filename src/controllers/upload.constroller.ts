@@ -8,9 +8,10 @@ require("dotenv").config();
 export const uploadMulter = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024,
+    fileSize: 10 * 1024 * 1024,
   },
   fileFilter: (req, file, cb) => {
+
     if (
       file.mimetype == "image/png" ||
       file.mimetype == "image/jpg" ||
@@ -18,6 +19,7 @@ export const uploadMulter = multer({
     ) {
       cb(null, true);
     } else {
+
       cb(null, false);
     }
   },
@@ -35,13 +37,17 @@ const bucket =
   storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
 
 export const uploadPhotos = async (
+    err: Error,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
+    if (err instanceof multer.MulterError) {
+      return res.status(500).send(err.code);
+    }
     if (!req.file) {
-      return res.status(400).send("Отсутствует файл для загрузки");
+      return next();
     }
 
     const imgName = v4();

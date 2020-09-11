@@ -54,12 +54,17 @@ export const addCourse = async (req: Request, res: Response) => {
 export const updateCourse = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const payload = req.query;
+    let payload = req.query;
+    let newSubject :string = payload.subject as string;
+    payload.subject = JSON.parse(newSubject); //костыль для разворачивания вложенного json
+
 
     const course = await Course.findOne({ _id: id });
     if (!course) {
       return res.status(400).send("Курс не найден");
     }
+
+    if (res.locals.publicUrl) payload.imageUrl = res.locals.publicUrl;
 
     const newCourse = await Course.findOneAndUpdate({ _id: id }, payload, {
       new: true,
