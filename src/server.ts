@@ -8,6 +8,7 @@ import Teacher from './routes/teachers.router';
 import Upload from './routes/upload.router';
 import User from './routes/users.router';
 import Activate from './routes/activete.router';
+import multer from "multer";
 
 const app: Application = express();
 const PORT = 5000;
@@ -27,8 +28,15 @@ app.use('/api/teachers', Teacher);
 app.use('/api/upload', Upload);
 app.use('/api/users', User);
 app.use('/activate', Activate);
+app.use(() => (err: Error, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof multer.MulterError) {
+        return res.status(418).send(err.code);
+    }
+    return res.status(500).send('Наташа все упало')
+});
 
 const start = async () => {
+
     try {
         await mongoose.connect(
             URL,
@@ -45,6 +53,6 @@ const start = async () => {
         process.exit(1);
     }
 };
-
 start();
+
 
