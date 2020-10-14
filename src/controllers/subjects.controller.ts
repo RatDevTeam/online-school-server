@@ -8,7 +8,7 @@ export const getAllSubject = async (req: Request, res: Response) => {
         const subject = await Subject.find();
 
         if (!subject) {
-          return res.status(400).send('Ни один придмет не найден')
+          return res.status(400).send('Ни один предмет не найден');
         }
 
         return res.status(200).send(subject);
