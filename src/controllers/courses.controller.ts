@@ -28,65 +28,68 @@ export const getCourseById = async (req: Request, res: Response) => {
 };
 
 export const addCourse = async (req: Request, res: Response) => {
-  try {
-    const { title, description, dateStart, dateFinish, subject } = req.query;
-    const imageUrl = <string>res.locals.publicUrl;
+    try {
+        const {title, description, dateStart, dateFinish, subject} = req.query;
+        const imageUrl = <string>res.locals.publicUrl;
 
-    const dateS = new Date(dateStart as string);
-    const dateF = new Date(dateFinish as string);
+        const dateS = new Date(dateStart as string);
+        const dateF = new Date(dateFinish as string);
 
-    const course: ICourse = new Course({
-      title,
-      description,
-      dateStart: dateS,
-      dateFinish: dateF,
-      subject,
-      imageUrl,
-    });
+        const course: ICourse = new Course({
+            title,
+            description,
+            dateStart: dateS,
+            dateFinish: dateF,
+            subject,
+            imageUrl,
+        });
 
-    const newCourse = await course.save();
-    return res.status(200).send(newCourse);
-  } catch (e) {
-    return res.status(500).send("Что-то пошло не так");
-  }
+        const newCourse = await course.save();
+        return res.status(200).send(newCourse);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send("Что-то пошло не так");
+    }
 };
 
 export const updateCourse = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    let payload = req.query;
-    let newSubject :string = payload.subject as string;
-    payload.subject = JSON.parse(newSubject); //костыль для разворачивания вложенного json
+    try {
+        const {id} = req.params;
+        let payload = req.query;
+        let newSubject: string = payload.subject as string;
+        payload.subject = JSON.parse(newSubject); //костыль для разворачивания вложенного json
 
 
-    const course = await Course.findOne({ _id: id });
-    if (!course) {
-      return res.status(400).send("Курс не найден");
+        const course = await Course.findOne({_id: id});
+        if (!course) {
+            return res.status(400).send("Курс не найден");
+        }
+
+        if (res.locals.publicUrl) payload.imageUrl = res.locals.publicUrl;
+
+        const newCourse = await Course.findOneAndUpdate({_id: id}, payload, {
+            new: true,
+        });
+        return res.status(200).send(newCourse);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send("Что-то пошло не так");
     }
-
-    if (res.locals.publicUrl) payload.imageUrl = res.locals.publicUrl;
-
-    const newCourse = await Course.findOneAndUpdate({ _id: id }, payload, {
-      new: true,
-    });
-    return res.status(200).send(newCourse);
-  } catch (e) {
-    return res.status(500).send("Что-то пошло не так");
-  }
 };
 
 export const deleteCourse = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const course = await Course.findOne({ _id: id });
+    try {
+        const {id} = req.params;
+        const course = await Course.findOne({_id: id});
 
-    if (!course) {
-      return res.status(400).send("Курс не найден");
+        if (!course) {
+            return res.status(400).send("Курс не найден");
+        }
+
+        await Course.remove({_id: course._id});
+        return res.status(200).send(`Курс ${course.title} удален`);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send("Что-то пошло не так");
     }
-
-    await Course.remove({ _id: course._id });
-    return res.status(200).send(`Курс ${course.title} удален`);
-  } catch (e) {
-    return res.status(500).send("Что-то пошло не так");
-  }
 };

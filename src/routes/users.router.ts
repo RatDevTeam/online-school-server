@@ -1,6 +1,6 @@
 import { resetPassword } from "./../controllers/users.constroller";
 import { Router } from "express";
-import { getUser, regUser } from "../controllers/users.constroller";
+import { getUserList, regUser } from "../controllers/users.constroller";
 import {
   regUserValidator,
   passwordValidator,
@@ -8,7 +8,7 @@ import {
 import { validation } from "../utils";
 const router = Router();
 
-router.get("/", getUser);
+router.get("/", getUserList);
 
 router.post("/register", regUserValidator, validation, regUser);
 
