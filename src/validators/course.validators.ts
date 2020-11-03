@@ -1,8 +1,8 @@
-import { check } from "express-validator";
+import { query } from "express-validator";
 
 export const addCourseValidator = [
-    check('title', "Отсутствует название курса").exists(),
-    check('description', "Отсутствует описание курса").exists(),
-    check('dateStart', "Отсутсвует дата начала курса").exists(),
-    check('dateFinish', "Отсутствует дата окончания курса").exists(),
+  query("title", "Отсутствует название курса").exists(),
+  query("description", "Отсутствует описание курса").exists(),
+  query("dateStart", "Отсутсвует дата начала курса").exists(),
+  query("dateFinish", "Отсутствует дата окончания курса").exists(),
 ];

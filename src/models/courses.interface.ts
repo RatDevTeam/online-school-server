@@ -18,16 +18,18 @@ export interface ICourse extends Document {
 
 export enum CourseTypes {
   MASTER,
-  SPECIAL,
+  SMART,
+  LITE,
 }
 
 export interface IHomeWork {
   date: string;
   title: string;
   description: string;
+  url: string;
 }
 
 export interface IScript {
   title: string;
-  link: string;
+  url: string;
 }
