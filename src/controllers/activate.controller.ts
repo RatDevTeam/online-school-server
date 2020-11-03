@@ -19,6 +19,6 @@ export const userActivate = async (req: Request, res: Response) => {
 
         return res.status(200).send(getActivatePage(user.firstName));
     } catch (e) {
-        return res.status(500).send("Что-то пошло не так");
+    return res.status(500).send("Что-то пошло не так");
     }
 };
