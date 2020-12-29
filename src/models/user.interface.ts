@@ -6,12 +6,20 @@ export interface IUser extends Document {
   lastName: string;
   email: string;
   password: string;
+  role: UserRole;
   status: UserStatus;
-  activated: boolean;
+  createDate: string;
 }
+
+export enum UserRole {
+  ADMIN= 'admin',
+  TEACHER = 'teacher',
+  TUTOR = 'tutor',
+  STUDENT = 'student',
+}
+
 export enum UserStatus {
-  ADMIN,
-  TEACHER,
-  TUTOR,
-  STUDENT,
+  CREATED = 'created',
+  ACTIVE = 'active',
+  BLOCKED = 'blocked'
 }

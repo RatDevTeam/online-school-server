@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
-import { ICourse } from "./courses.interface";
+import {ICourse} from "./course.interface";
 import { subjectSchema } from "./subject.model";
+import { lessonSchema } from "./lesson.model";
 
 const courseSchema = new Schema({
   title: String,
@@ -12,14 +13,8 @@ const courseSchema = new Schema({
   type: Number,
   price: String,
   teacher: String,
-  homeWorks: [
-    {
-      date: Date,
-      title: String,
-      description: String,
-      url: String,
-    },
-  ],
+  isPublish: Boolean,
+  lessons: [lessonSchema],
   scripts: [
     {
       title: String,

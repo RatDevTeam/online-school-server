@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Course from "../models/courses.model";
-import { ICourse } from "../models/courses.interface";
+import Course from "../models/course.model";
+import { ICourse } from "../models/course.interface";
 
 export const getAllCourses = async (req: Request, res: Response) => {
   try {

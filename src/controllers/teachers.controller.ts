@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
-import Teacher from '../models/teachers.model';
-import {ITeacher} from "../models/teachers.interface";
+import Teacher from '../models/teacher.model';
+import {ITeacher} from "../models/teacher.interface";
 
 export const getAllTeachers = async (req: Request, res: Response) => {
     try {

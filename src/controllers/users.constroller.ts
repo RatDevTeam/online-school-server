@@ -1,17 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import User from "../models/users.schema";
-import { UserStatus } from "../models/users.interface";
+import User from "../models/user.schema";
+import {UserRole, UserStatus} from "../models/user.interface";
 import { emailTransporter } from "../utils";
 import { getEmailPage } from "../utils/pages";
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUserList = async (req: Request, res: Response) => {
   try {
-    const users = User.find({}, { password: false, _v: false });
+    const users = await User.find({}, { password: false, _v: false });
 
     if (!users) {
-      return res.status(404).send("Не один пользователь не найден");
+      return res.status(404).send("Ни один пользователь не найден");
     }
 
     return res.status(200).send(users);
@@ -22,7 +21,7 @@ export const getUser = async (req: Request, res: Response) => {
 
 export const regUser = async (req: Request, res: Response) => {
   try {
-    const { firstName, lastName, email, password, status } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
 
     const candidate = await User.findOne({ email });
 
@@ -37,13 +36,14 @@ export const regUser = async (req: Request, res: Response) => {
       lastName,
       email,
       password: hashedPassword,
-      status: UserStatus.STUDENT,
-      activated: false,
+      role: UserRole.STUDENT,
+      status: UserStatus.CREATED,
+      createDate: new Date(),
     });
 
-    if (status && status !== UserStatus.STUDENT) {
-      user.status = status;
-      user.activated = true;
+    if (role && role !== UserRole.STUDENT) {
+      user.role = role;
+      user.status = UserStatus.ACTIVE;
     }
 
     const dataUser = await user.save();
@@ -88,6 +88,27 @@ export const resetPassword = async (req: Request, res: Response) => {
     await User.update({ _id: candidate._id }, { password: hashedPassword });
 
     return res.status(200).send("Пароль успешно обновлен обновлен");
+  } catch (e) {
+    return res.status(500).send("Что-то пошло не так");
+  }
+};
+
+
+export const editUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { role, status } = req.body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).send("Пользователь не найден");
+    }
+
+    await User.updateOne({ _id: user._id }, { role, status });
+    const users = await User.find({}, { password: false, _v: false });
+
+    return res.status(202).send(users);
   } catch (e) {
     return res.status(500).send("Что-то пошло не так");
   }

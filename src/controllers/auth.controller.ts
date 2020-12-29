@@ -1,9 +1,10 @@
 import {Request, Response} from "express";
-import User from "../models/users.schema";
+import User from "../models/user.schema";
 import Session from "../models/session.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v4 } from "uuid";
+import {UserStatus} from "../models/user.interface";
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
@@ -15,8 +16,11 @@ export const loginUser = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Пользователь не найден" });
         }
 
-        if (!user.activated) {
+        if (user.status === UserStatus.CREATED) {
             return res.status(404).send("Пользователь еще не активирован");
+        }
+        if (user.status === UserStatus.BLOCKED) {
+            return res.status(404).send('Пользователь заблокирован');
         }
 
         const isMatch = await bcrypt.compare(password, user.password);

@@ -1,6 +1,7 @@
 import {Request, Response} from "express";
-import User from "../models/users.schema";
+import User from "../models/user.schema";
 import { getActivatePage } from "../utils/pages";
+import {UserStatus} from "../models/user.interface";
 
 export const userActivate = async (req: Request, res: Response) => {
     try {
@@ -9,10 +10,13 @@ export const userActivate = async (req: Request, res: Response) => {
         const user = await User.findOne({ _id: id });
 
         if (!user) {
-            return res.status(404).send('Такой пользователь не существует');
+            return res.status(404).send('Пользователя не существует');
         }
-        if (user.activated) {
-            return res.status(404).send('Такой пользователь уже активирован');
+        if (user.status === UserStatus.ACTIVE) {
+            return res.status(404).send('Пользователь уже активирован');
+        }
+        if (user.status === UserStatus.BLOCKED) {
+            return res.status(404).send('Пользователь заблокирован');
         }
 
         await User.updateOne({ _id: user._id }, { activated: true });

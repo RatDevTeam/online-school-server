@@ -1,5 +1,6 @@
 import { Document } from "mongoose";
 import { ISubject } from "./subject.interface";
+import {ILesson} from "./lesson.interface";
 
 export interface ICourse extends Document {
   _id: string;
@@ -12,21 +13,14 @@ export interface ICourse extends Document {
   type: CourseTypes;
   price: string;
   teachers: string[];
-  homeWorks: IHomeWork[];
+  lessons: ILesson[],
   scripts: IScript[];
+  isPublish: boolean;
 }
 
 export enum CourseTypes {
-  MASTER,
-  SMART,
-  LITE,
-}
-
-export interface IHomeWork {
-  date: string;
-  title: string;
-  description: string;
-  url: string;
+  MASTER = 'master',
+  SPECIAL = 'special',
 }
 
 export interface IScript {
